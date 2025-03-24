@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+    <changeSet id="001" author="aleksandr_kobelskiy">
+        <sqlFile path="db/scripts/001_create_users_table.sql" />
+        <sqlFile path="db/scripts/002_create_posts_table.sql" />
+        <sqlFile path="db/scripts/003_create_images_table.sql" />
+        <sqlFile path="db/scripts/004_create_post_images_table.sql" />
+        <sqlFile path="db/scripts/005_create_friend_requests_table.sql" />
+        <sqlFile path="db/scripts/006_create_friends_table.sql" />
+        <sqlFile path="db/scripts/007_create_subscriptions_table.sql" />
+        <sqlFile path="db/scripts/008_create_messages_table.sql" />
+        <sqlFile path="db/scripts/009_create_activity_feed_table.sql" />
+    </changeSet>
+</databaseChangeLog>

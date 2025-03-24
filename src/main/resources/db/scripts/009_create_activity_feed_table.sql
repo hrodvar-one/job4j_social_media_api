@@ -1,0 +1,6 @@
+CREATE TABLE activity_feed (
+    id SERIAL PRIMARY KEY,
+    subscriber_id INT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    post_id INT NOT NULL REFERENCES posts(id) ON DELETE CASCADE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
