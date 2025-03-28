@@ -111,21 +111,17 @@ class PostRepositoryTest {
 
         userRepository.save(user);
 
-        Optional<User> optionalSavedUser = userRepository.findById(user.getId());
-
-        assertThat(optionalSavedUser).isPresent();
-
         Post post1 = new Post();
-        post1.setTitle("Test Post");
-        post1.setContent("This is a test post.");
-        post1.setUser(optionalSavedUser.get());
+        post1.setTitle("Test Post1");
+        post1.setContent("This is a test post1.");
+        post1.setUser(user);
         post1.setCreatedAt(LocalDateTime.now());
         post1.setUpdatedAt(LocalDateTime.now());
 
         Post post2 = new Post();
-        post2.setTitle("Test Post");
-        post2.setContent("This is a test post.");
-        post2.setUser(optionalSavedUser.get());
+        post2.setTitle("Test Post2");
+        post2.setContent("This is a test post2.");
+        post2.setUser(user);
         post2.setCreatedAt(LocalDateTime.now());
         post2.setUpdatedAt(LocalDateTime.now());
 

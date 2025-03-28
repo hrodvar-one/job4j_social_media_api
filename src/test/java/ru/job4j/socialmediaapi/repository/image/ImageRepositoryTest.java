@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
@@ -37,9 +38,9 @@ class ImageRepositoryTest {
         image.setImageUrl("http://localhost:8080/images/1");
         image.setCreatedAt(LocalDateTime.now());
         imageRepository.save(image);
-        Optional<Image> foundImage = imageRepository.findById(image.getId());
-        assertThat(foundImage).isPresent();
-        assertThat(foundImage.get().getName()).isEqualTo("test");
+        Optional<Image> optionalSavedImage = imageRepository.findById(image.getId());
+        assertThat(optionalSavedImage).isPresent();
+        assertThat(optionalSavedImage.get().getName()).isEqualTo("test");
     }
 
     /**
@@ -52,9 +53,9 @@ class ImageRepositoryTest {
         image.setImageUrl("http://localhost:8080/images/1");
         image.setCreatedAt(LocalDateTime.now());
         imageRepository.save(image);
-        Optional<Image> foundImage = imageRepository.findById(image.getId());
-        assertThat(foundImage).isPresent();
-        assertThat(foundImage.get().getName()).isEqualTo("test");
+        Optional<Image> optionalSavedImage = imageRepository.findById(image.getId());
+        assertThat(optionalSavedImage).isPresent();
+        assertThat(optionalSavedImage.get().getName()).isEqualTo("test");
     }
 
     /**
@@ -78,5 +79,125 @@ class ImageRepositoryTest {
         List<Image> images = imageRepository.findAll();
         assertThat(images).hasSize(2);
         assertThat(images).containsExactlyInAnyOrder(image1, image2);
+    }
+
+    /**
+     * Негативный тест вывода всех объектов типа Image.
+     */
+    @Test
+    public void whenGetAllImages_ThenImagesAreFoundFail() {
+        List<Image> images = imageRepository.findAll();
+
+        assertTrue(images.isEmpty(), "Список объектов типа Image должен быть пустым");
+    }
+
+    /**
+     * Позитивный тест поиска сущности типа Image по ID.
+     */
+    @Test
+    public void whenGetImageById_ThenImageIsFoundSuccess() {
+        Image image = new Image();
+        image.setName("test");
+        image.setImageUrl("http://localhost:8080/images/1");
+        image.setCreatedAt(LocalDateTime.now());
+
+        imageRepository.save(image);
+
+        Optional<Image> optionalSavedImage = imageRepository.findById(image.getId());
+        assertTrue(optionalSavedImage.isPresent(), "Сохранённый Image не должен быть пустым");
+        assertEquals(image.getName(), optionalSavedImage.get().getName(), "Name у Image должны совпадать");
+    }
+
+    /**
+     * Негативный тест поиска сущности типа Image по ID.
+     */
+    @Test
+    public void whenGetImageById_ThenImageIsFoundFail() {
+        Optional<Image> optionalImage = imageRepository.findById(-1L);
+
+        assertFalse(optionalImage.isPresent(), "Image не должен присутствовать в базе данных.");
+    }
+
+    /**
+     * Позитивный тест обновления сущности Image.
+     */
+    @Test
+    public void whenUpdateImage_ThenImageIsUpdatedSuccess() {
+        Image image = new Image();
+        image.setName("test");
+        image.setImageUrl("http://localhost:8080/images/1");
+        image.setCreatedAt(LocalDateTime.now());
+
+        imageRepository.save(image);
+
+        Optional<Image> optionalSavedImage = imageRepository.findById(image.getId());
+        assertTrue(optionalSavedImage.isPresent(), "Сохранённый Image не должен быть пустым");
+
+        image.setName("newName");
+        imageRepository.save(image);
+
+        Optional<Image> optionalUpdatedImage = imageRepository.findById(image.getId());
+        assertTrue(optionalUpdatedImage.isPresent(), "Обновлённый Image не должен быть пустым");
+
+        assertEquals("newName", optionalUpdatedImage.get().getName(), "Name у Image должно быть обновлено");
+        assertEquals("http://localhost:8080/images/1", optionalUpdatedImage.get().getImageUrl(), "ImageUrl не должен измениться");
+    }
+
+    /**
+     * Негативный тест обновления сущности типа Image.
+     */
+    @Test
+    public void whenUpdateImage_ThenImageIsUpdatedFail() {
+        Image image = new Image();
+        image.setName("test");
+        image.setImageUrl("http://localhost:8080/images/1");
+        image.setCreatedAt(LocalDateTime.now());
+
+        imageRepository.save(image);
+
+        Optional<Image> optionalSavedImage = imageRepository.findById(image.getId());
+        assertTrue(optionalSavedImage.isPresent(), "Сохранённый Image не должен быть пустым");
+
+        image.setName("newName");
+        imageRepository.save(image);
+
+        Optional<Image> optionalUpdatedImage = imageRepository.findById(image.getId());
+        assertTrue(optionalUpdatedImage.isPresent(), "Обновлённый Image не должен быть пустым");
+
+        assertNotEquals("test", optionalUpdatedImage.get().getName(), "Name у Image должно быть обновлено");
+    }
+
+    /**
+     * Позитивный тест удаления сущности Image.
+     */
+    @Test
+    public void whenDeleteImage_ThenImageIsDeletedSuccess() {
+        Image image = new Image();
+        image.setName("test");
+        image.setImageUrl("http://localhost:8080/images/1");
+        image.setCreatedAt(LocalDateTime.now());
+
+        imageRepository.save(image);
+
+        Optional<Image> optionalSavedImage = imageRepository.findById(image.getId());
+        assertTrue(optionalSavedImage.isPresent(), "Сохранённый Image не должен быть пустым");
+
+        imageRepository.delete(optionalSavedImage.get());
+
+        Optional<Image> optionalDeletedImage = imageRepository.findById(optionalSavedImage.get().getId());
+
+        assertFalse(optionalDeletedImage.isPresent(), "Image не должен присутствовать в базе данных.");
+    }
+
+    /**
+     * Негативный тест удаления сущности Image.
+     */
+    @Test
+    public void whenDeleteImage_ThenImageIsDeletedFail() {
+        Long nonExistentId = 999L;
+        long initialCount = imageRepository.count();
+
+        assertDoesNotThrow(() -> imageRepository.deleteById(nonExistentId));
+        assertEquals(initialCount, imageRepository.count());
     }
 }

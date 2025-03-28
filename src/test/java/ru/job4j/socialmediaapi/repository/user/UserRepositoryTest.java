@@ -39,9 +39,9 @@ class UserRepositoryTest {
         user.setPasswordHash("password");
         user.setCreatedAt(LocalDateTime.now());
         userRepository.save(user);
-        Optional<User> foundUser = userRepository.findById(user.getId());
-        assertThat(foundUser).isPresent();
-        assertThat(foundUser.get().getUsername()).isEqualTo("John");
+        Optional<User> optionalSavedUser = userRepository.findById(user.getId());
+        assertThat(optionalSavedUser).isPresent();
+        assertThat(optionalSavedUser.get().getUsername()).isEqualTo("John");
     }
 
     /**
@@ -55,9 +55,9 @@ class UserRepositoryTest {
         user.setPasswordHash("password");
         user.setCreatedAt(LocalDateTime.now());
         userRepository.save(user);
-        Optional<User> foundUser = userRepository.findById(user.getId());
-        assertThat(foundUser).isPresent();
-        assertNotEquals("Smith", foundUser.get().getUsername(), "Username не должен быть 'Smith'");
+        Optional<User> optionalSavedUser = userRepository.findById(user.getId());
+        assertThat(optionalSavedUser).isPresent();
+        assertNotEquals("Smith", optionalSavedUser.get().getUsername(), "Username не должен быть 'Smith'");
     }
 
     /**
@@ -118,9 +118,9 @@ class UserRepositoryTest {
      */
     @Test
     public void whenGetUserById_ThenUserIsFoundFail() {
-        Optional<User> user = userRepository.findById(-1L);
+        Optional<User> optionalUser = userRepository.findById(-1L);
 
-        assertFalse(user.isPresent(), "Пользователь не должен присутствовать в базе данных.");
+        assertFalse(optionalUser.isPresent(), "Пользователь не должен присутствовать в базе данных.");
     }
 
     /**
@@ -142,11 +142,11 @@ class UserRepositoryTest {
         user.setUsername("Jane");
         userRepository.save(user);
 
-        Optional<User> updatedUser = userRepository.findById(user.getId());
-        assertTrue(updatedUser.isPresent(), "Обновлённый User не должен быть пустым");
+        Optional<User> optionalUpdatedUser = userRepository.findById(user.getId());
+        assertTrue(optionalUpdatedUser.isPresent(), "Обновлённый User не должен быть пустым");
 
-        assertEquals("Jane", updatedUser.get().getUsername(), "Имя пользователя должно быть обновлено");
-        assertEquals("john@example.com", updatedUser.get().getEmail(), "Email не должен измениться");
+        assertEquals("Jane", optionalUpdatedUser.get().getUsername(), "Имя пользователя должно быть обновлено");
+        assertEquals("john@example.com", optionalUpdatedUser.get().getEmail(), "Email не должен измениться");
     }
 
     /**
@@ -162,16 +162,16 @@ class UserRepositoryTest {
 
         userRepository.save(user);
 
-        Optional<User> savedUser = userRepository.findById(user.getId());
-        assertTrue(savedUser.isPresent(), "Сохранённый User не должен быть пустым");
+        Optional<User> optionalSavedUser = userRepository.findById(user.getId());
+        assertTrue(optionalSavedUser.isPresent(), "Сохранённый User не должен быть пустым");
 
         user.setUsername("Jane");
         userRepository.save(user);
 
-        Optional<User> updatedUser = userRepository.findById(user.getId());
-        assertTrue(updatedUser.isPresent(), "Обновлённый User не должен быть пустым");
+        Optional<User> optionalUpdatedUser = userRepository.findById(user.getId());
+        assertTrue(optionalUpdatedUser.isPresent(), "Обновлённый User не должен быть пустым");
 
-        assertNotEquals("John", updatedUser.get().getUsername(), "Имя пользователя должно быть обновлено");
+        assertNotEquals("John", optionalUpdatedUser.get().getUsername(), "Имя пользователя должно быть обновлено");
     }
 
     /**
@@ -192,9 +192,9 @@ class UserRepositoryTest {
 
         userRepository.delete(optionalSavedUser.get());
 
-        Optional<User> deletedUser = userRepository.findById(optionalSavedUser.get().getId());
+        Optional<User> optionalDeletedUser = userRepository.findById(optionalSavedUser.get().getId());
 
-        assertFalse(deletedUser.isPresent(), "Пользователь не должен присутствовать в базе данных.");
+        assertFalse(optionalDeletedUser.isPresent(), "Пользователь не должен присутствовать в базе данных.");
     }
 
     /**
