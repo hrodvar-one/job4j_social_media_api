@@ -25,10 +25,10 @@ import static org.junit.jupiter.api.Assertions.*;
 class FriendRepositoryTest {
 
     @Autowired
-    public FriendRepository friendRepository;
+    private FriendRepository friendRepository;
 
     @Autowired
-    public UserRepository userRepository;
+    private UserRepository userRepository;
 
     @BeforeEach
     public void setUp() {
