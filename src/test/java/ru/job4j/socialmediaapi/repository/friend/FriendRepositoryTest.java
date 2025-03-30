@@ -40,7 +40,7 @@ class FriendRepositoryTest {
      * Позитивный тест сохранения сущности Friend в БД.
      */
     @Test
-    public void whenSaveFriend_ThenFriendIsSavedSuccess() {
+    public void whenSaveFriendThenFriendIsSavedSuccess() {
         User user1 = new User();
         user1.setUsername("John");
         user1.setEmail("john@example.com");
@@ -73,7 +73,7 @@ class FriendRepositoryTest {
      * Негативный тест сохранения сущности Friend в БД.
      */
     @Test
-    public void whenSaveFriend_ThenFriendIsSavedFail() {
+    public void whenSaveFriendThenFriendIsSavedFail() {
         User user1 = new User();
         user1.setUsername("John");
         user1.setEmail("john@example.com");
@@ -107,7 +107,7 @@ class FriendRepositoryTest {
      * Позитивный тест получения всех сущностей Friend из БД.
      */
     @Test
-    public void whenGetAllFriends_ThenFriendsAreFoundSuccess() {
+    public void whenGetAllFriendsThenFriendsAreFoundSuccess() {
         User user1 = new User();
         user1.setUsername("John");
         user1.setEmail("john@example.com");
@@ -146,7 +146,7 @@ class FriendRepositoryTest {
      * Негативный тест получения всех сущностей Friend из БД.
      */
     @Test
-    public void whenGetAllFriends_ThenFriendsAreFoundFail() {
+    public void whenGetAllFriendsThenFriendsAreFoundFail() {
         List<Friend> friends = friendRepository.findAll();
 
         assertTrue(friends.isEmpty(), "Список friends должен быть пустым");
@@ -156,7 +156,7 @@ class FriendRepositoryTest {
      * Позитивный тест получения сущности Friend по id из БД.
      */
     @Test
-    public void whenGetFriendById_ThenFriendIsFoundSuccess() {
+    public void whenGetFriendByIdThenFriendIsFoundSuccess() {
         User user1 = new User();
         user1.setUsername("John");
         user1.setEmail("john@example.com");
@@ -189,7 +189,7 @@ class FriendRepositoryTest {
      * Негативный тест получения сущности Friend по id из БД.
      */
     @Test
-    public void whenGetFriendById_ThenFriendIsFoundFail() {
+    public void whenGetFriendByIdThenFriendIsFoundFail() {
         Optional<Friend> friend = friendRepository.findById(-1L);
 
         assertFalse(friend.isPresent(), "Friend не должен присутствовать в базе данных");
@@ -199,7 +199,7 @@ class FriendRepositoryTest {
      * Позитивный тест обновления сущности Friend.
      */
     @Test
-    public void whenUpdateFriend_ThenFriendIsUpdatedSuccess() {
+    public void whenUpdateFriendThenFriendIsUpdatedSuccess() {
         User user1 = new User();
         user1.setUsername("John");
         user1.setEmail("john@example.com");
@@ -244,7 +244,7 @@ class FriendRepositoryTest {
      * Негативный тест обновления сущности Friend.
      */
     @Test
-    public void whenUpdateFriend_ThenFriendIsUpdatedFail() {
+    public void whenUpdateFriendThenFriendIsUpdatedFail() {
         User user1 = new User();
         user1.setUsername("John");
         user1.setEmail("john@example.com");
@@ -286,7 +286,7 @@ class FriendRepositoryTest {
      * Позитивный тест удаления сущности Friend из БД.
      */
     @Test
-    public void whenDeleteFriend_ThenFriendIsDeletedSuccess() {
+    public void whenDeleteFriendThenFriendIsDeletedSuccess() {
         User user1 = new User();
         user1.setUsername("John");
         user1.setEmail("john@example.com");
@@ -323,7 +323,7 @@ class FriendRepositoryTest {
      * Негативный тест удаления сущности Friend.
      */
     @Test
-    public void whenDeleteFriend_ThenFriendIsDeletedFail() {
+    public void whenDeleteFriendThenFriendIsDeletedFail() {
         Long nonExistentId = 999L;
         long initialCount = friendRepository.count();
 

@@ -40,7 +40,7 @@ class PostRepositoryTest {
      * Позитивный тест сохранения сущности Post в БД.
      */
     @Test
-    public void whenSavePost_ThenPostIsSavedSuccess() {
+    public void whenSavePostThenPostIsSavedSuccess() {
         User user = new User();
         user.setUsername("John");
         user.setEmail("john@example.com");
@@ -72,7 +72,7 @@ class PostRepositoryTest {
      * Негативный тест сохранения сущности Post в БД.
      */
     @Test
-    public void whenSavePost_ThenPostIsSavedFail() {
+    public void whenSavePostThenPostIsSavedFail() {
         User user = new User();
         user.setUsername("John");
         user.setEmail("john@example.com");
@@ -104,7 +104,7 @@ class PostRepositoryTest {
      * Позитивный тест получения всех сущностей Post из БД.
      */
     @Test
-    public void whenGetAllPosts_ThenPostsAreFoundSuccess() {
+    public void whenGetAllPostsThenPostsAreFoundSuccess() {
         User user = new User();
         user.setUsername("John");
         user.setEmail("john@example.com");
@@ -140,7 +140,7 @@ class PostRepositoryTest {
      * Негативный тест получения всех сущностей Post из БД.
      */
     @Test
-    public void whenGetAllPosts_ThenPostsAreFoundFail() {
+    public void whenGetAllPostsThenPostsAreFoundFail() {
         List<Post> posts = postRepository.findAll();
 
         assertTrue(posts.isEmpty(), "Список пользователей должен быть пустым");
@@ -150,7 +150,7 @@ class PostRepositoryTest {
      * Позитивный тест получения сущности Post по ID.
      */
     @Test
-    public void whenGetPostById_ThenPostIsFoundSuccess() {
+    public void whenGetPostByIdThenPostIsFoundSuccess() {
         User user = new User();
         user.setUsername("John");
         user.setEmail("john@example.com");
@@ -181,7 +181,7 @@ class PostRepositoryTest {
      * Негативный тест получения сущности Post по ID.
      */
     @Test
-    public void whenGetPostById_ThenPostIsFoundFail() {
+    public void whenGetPostByIdThenPostIsFoundFail() {
         Optional<Post> post = postRepository.findById(-1L);
 
         assertFalse(post.isPresent(), "Post не должен присутствовать в базе данных");
@@ -191,7 +191,7 @@ class PostRepositoryTest {
      * Позитивный тест обновления сущности Post.
      */
     @Test
-    public void whenUpdatePost_ThenPostIsUpdatedSuccess() {
+    public void whenUpdatePostThenPostIsUpdatedSuccess() {
         User user = new User();
         user.setUsername("John");
         user.setEmail("john@example.com");
@@ -230,7 +230,7 @@ class PostRepositoryTest {
      * Негативный тест обновления сущности Post.
      */
     @Test
-    public void whenUpdatePost_ThenPostIsUpdatedFail() {
+    public void whenUpdatePostThenPostIsUpdatedFail() {
         User user = new User();
         user.setUsername("John");
         user.setEmail("john@example.com");
@@ -268,7 +268,7 @@ class PostRepositoryTest {
      * Позитивный тест удаления сущности Post.
      */
     @Test
-    public void whenDeletePost_ThenPostIsDeletedSuccess() {
+    public void whenDeletePostThenPostIsDeletedSuccess() {
         User user = new User();
         user.setUsername("John");
         user.setEmail("john@example.com");
@@ -304,7 +304,7 @@ class PostRepositoryTest {
      * Негативный тест удаления сущности Post.
      */
     @Test
-    public void whenDeletePost_ThenPostIsDeletedFail() {
+    public void whenDeletePostThenPostIsDeletedFail() {
         Long nonExistentId = 999L;
         long initialCount = postRepository.count();
 

@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
-import ru.job4j.socialmediaapi.entity.FriendRequest;
 import ru.job4j.socialmediaapi.entity.Message;
 import ru.job4j.socialmediaapi.entity.User;
 import ru.job4j.socialmediaapi.repository.user.UserRepository;
@@ -41,7 +40,7 @@ class MessageRepositoryTest {
      * Позитивный тест сохранения сущности Message в БД.
      */
     @Test
-    public void whenSaveMessage_ThenMessageIsSavedSuccess() {
+    public void whenSaveMessageThenMessageIsSavedSuccess() {
         User senderUser = new User();
         senderUser.setUsername("Sender");
         senderUser.setEmail("sender@example.com");
@@ -83,7 +82,7 @@ class MessageRepositoryTest {
      * Негативный тест сохранения сущности Message в БД.
      */
     @Test
-    public void whenSaveMessage_ThenMessageIsSavedFail() {
+    public void whenSaveMessageThenMessageIsSavedFail() {
         User senderUser = new User();
         senderUser.setUsername("Sender");
         senderUser.setEmail("sender@example.com");
@@ -125,7 +124,7 @@ class MessageRepositoryTest {
      * Позитивный тест получения всех сущностей типа Message из БД.
      */
     @Test
-    public void whenGetAllMessages_ThenMessagesAreFoundSuccess() {
+    public void whenGetAllMessagesThenMessagesAreFoundSuccess() {
         User senderUser1 = new User();
         senderUser1.setUsername("Sender1");
         senderUser1.setEmail("sender1@example.com");
@@ -182,7 +181,7 @@ class MessageRepositoryTest {
      * Негативный тест получения всех сущностей типа Message из БД.
      */
     @Test
-    public void whenGetAllMessages_ThenMessagesAreFoundFail() {
+    public void whenGetAllMessagesThenMessagesAreFoundFail() {
         List<Message> foundMessages = messageRepository.findAll();
 
         assertTrue(foundMessages.isEmpty(), "Список сообщений должен быть пустым");
@@ -192,7 +191,7 @@ class MessageRepositoryTest {
      * Позитивный тест получения сущности типа Message по ID.
      */
     @Test
-    public void whenGetMessageById_ThenMessageIsFoundSuccess() {
+    public void whenGetMessageByIdThenMessageIsFoundSuccess() {
         User senderUser = new User();
         senderUser.setUsername("Sender");
         senderUser.setEmail("sender@example.com");
@@ -234,7 +233,7 @@ class MessageRepositoryTest {
      * Негативный тест получения сущности типа Message по ID.
      */
     @Test
-    public void whenGetMessageById_ThenMessageIsFoundFail() {
+    public void whenGetMessageByIdThenMessageIsFoundFail() {
         Optional<Message> optionalMessage = messageRepository.findById(-1L);
 
         assertFalse(optionalMessage.isPresent(), "Message не должен быть пустым");
@@ -244,7 +243,7 @@ class MessageRepositoryTest {
      * Позитивный тест обновления сущности типа Message.
      */
     @Test
-    public void whenUpdateMessage_ThenMessageIsUpdatedSuccess() {
+    public void whenUpdateMessageThenMessageIsUpdatedSuccess() {
         User senderUser = new User();
         senderUser.setUsername("Sender");
         senderUser.setEmail("sender@example.com");
@@ -293,7 +292,7 @@ class MessageRepositoryTest {
      * Негативный тест обновления сущности типа Message.
      */
     @Test
-    public void whenUpdateMessage_ThenMessageIsUpdatedFail() {
+    public void whenUpdateMessageThenMessageIsUpdatedFail() {
         User senderUser = new User();
         senderUser.setUsername("Sender");
         senderUser.setEmail("sender@example.com");
@@ -342,7 +341,7 @@ class MessageRepositoryTest {
      * Позитивный тест удаления сущности типа Message.
      */
     @Test
-    public void whenDeleteMessage_ThenMessageIsDeletedSuccess() {
+    public void whenDeleteMessageThenMessageIsDeletedSuccess() {
         User senderUser = new User();
         senderUser.setUsername("Sender");
         senderUser.setEmail("sender@example.com");
@@ -390,7 +389,7 @@ class MessageRepositoryTest {
      * Негативный тест удаления сущности типа Message.
      */
     @Test
-    public void whenDeleteMessage_ThenMessageIsDeletedFail() {
+    public void whenDeleteMessageThenMessageIsDeletedFail() {
         Long nonExistentId = 999L;
         long initialCount = messageRepository.count();
 

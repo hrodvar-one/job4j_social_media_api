@@ -46,7 +46,7 @@ class ActivityFeedRepositoryTest {
      * Позитивный тест сохранения сущности ActivityFeed в БД.
      */
     @Test
-    void whenSaveActivityFeed_ThenActivityFeedIsSavedSuccess() {
+    void whenSaveActivityFeedThenActivityFeedIsSavedSuccess() {
         User user = new User();
         user.setUsername("John");
         user.setEmail("john@example.com");
@@ -88,7 +88,7 @@ class ActivityFeedRepositoryTest {
      * Негативный тест сохранения сущности ActivityFeed в БД.
      */
     @Test
-    void whenSaveActivityFeed_ThenActivityFeedIsSavedFail() {
+    void whenSaveActivityFeedThenActivityFeedIsSavedFail() {
         User user = new User();
         user.setUsername("John");
         user.setEmail("john@example.com");
@@ -132,7 +132,7 @@ class ActivityFeedRepositoryTest {
      * Позитивный тест получения всех сущностей ActivityFeed из БД.
      */
     @Test
-    void whenGetAllActivityFeeds_ThenActivityFeedsAreFoundSuccess() {
+    void whenGetAllActivityFeedsThenActivityFeedsAreFoundSuccess() {
         User user = new User();
         user.setUsername("John");
         user.setEmail("john@example.com");
@@ -191,7 +191,7 @@ class ActivityFeedRepositoryTest {
      * Негативный тест получения всех сущностей ActivityFeed из БД.
      */
     @Test
-    void whenGetAllActivityFeeds_ThenActivityFeedsAreFoundFail() {
+    void whenGetAllActivityFeedsThenActivityFeedsAreFoundFail() {
         List<ActivityFeed> foundActivityFeeds = activityFeedRepository.findAll();
 
         assertTrue(foundActivityFeeds.isEmpty(), "Список ActivityFeeds должен быть пустым");
@@ -201,7 +201,7 @@ class ActivityFeedRepositoryTest {
      * Позитивный тест получения сущности ActivityFeed из БД по ID.
      */
     @Test
-    void whenGetActivityFeedById_ThenActivityFeedIsFoundSuccess() {
+    void whenGetActivityFeedByIdThenActivityFeedIsFoundSuccess() {
         User user = new User();
         user.setUsername("John");
         user.setEmail("john@example.com");
@@ -245,7 +245,7 @@ class ActivityFeedRepositoryTest {
      * Негативный тест получения сущности ActivityFeed из БД по ID.
      */
     @Test
-    void whenGetActivityFeedById_ThenActivityFeedIsFoundFail() {
+    void whenGetActivityFeedByIdThenActivityFeedIsFoundFail() {
         Optional<ActivityFeed> optionalActivityFeed = activityFeedRepository.findById(-1L);
 
         assertFalse(optionalActivityFeed.isPresent(), "ActivityFeed не должен присутствовать в базе данных");
@@ -255,7 +255,7 @@ class ActivityFeedRepositoryTest {
      * Позитивный тест обновления сущности ActivityFeed.
      */
     @Test
-    void whenUpdateActivityFeed_ThenActivityFeedIsUpdatedSuccess() {
+    void whenUpdateActivityFeedThenActivityFeedIsUpdatedSuccess() {
         User user = new User();
         user.setUsername("John");
         user.setEmail("john@example.com");
@@ -306,7 +306,7 @@ class ActivityFeedRepositoryTest {
      * Негативный тест обновления сущности ActivityFeed.
      */
     @Test
-    void whenUpdateActivityFeed_ThenActivityFeedIsUpdatedFail() {
+    void whenUpdateActivityFeedThenActivityFeedIsUpdatedFail() {
         User user = new User();
         user.setUsername("John");
         user.setEmail("john@example.com");
@@ -357,7 +357,7 @@ class ActivityFeedRepositoryTest {
      * Позитивный тест удаления сущности ActivityFeed.
      */
     @Test
-    void whenDeleteActivityFeed_ThenActivityFeedIsDeletedSuccess() {
+    void whenDeleteActivityFeedThenActivityFeedIsDeletedSuccess() {
         User user = new User();
         user.setUsername("John");
         user.setEmail("john@example.com");
@@ -406,7 +406,7 @@ class ActivityFeedRepositoryTest {
      * Негативный тест удаления сущности ActivityFeed.
      */
     @Test
-    void whenDeleteActivityFeed_ThenActivityFeedIsDeletedFail() {
+    void whenDeleteActivityFeedThenActivityFeedIsDeletedFail() {
         Long nonExistentId = 999L;
         long initialCount = activityFeedRepository.count();
 

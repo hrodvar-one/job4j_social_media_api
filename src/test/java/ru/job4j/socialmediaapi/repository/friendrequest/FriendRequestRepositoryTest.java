@@ -40,7 +40,7 @@ class FriendRequestRepositoryTest {
      * Позитивный тест сохранения сущности FriendRequest в БД.
      */
     @Test
-    public void whenSaveFriendRequest_ThenFriendRequestIsSavedSuccess() {
+    public void whenSaveFriendRequestThenFriendRequestIsSavedSuccess() {
         User senderUser = new User();
         senderUser.setUsername("Sender");
         senderUser.setEmail("sender@example.com");
@@ -82,7 +82,7 @@ class FriendRequestRepositoryTest {
      * Негативный тест сохранения сущности FriendRequest в БД.
      */
     @Test
-    public void whenSaveFriendRequest_ThenFriendRequestIsSavedFail() {
+    public void whenSaveFriendRequestThenFriendRequestIsSavedFail() {
         User senderUser = new User();
         senderUser.setUsername("Sender");
         senderUser.setEmail("sender@example.com");
@@ -124,7 +124,7 @@ class FriendRequestRepositoryTest {
      * Позитивный тест получения всех сущностей типа FriendRequest из БД.
      */
     @Test
-    public void whenGetAllFriendRequests_ThenFriendRequestsAreFoundSuccess() {
+    public void whenGetAllFriendRequestsThenFriendRequestsAreFoundSuccess() {
         User senderUser1 = new User();
         senderUser1.setUsername("Sender1");
         senderUser1.setEmail("sender1@example.com");
@@ -181,7 +181,7 @@ class FriendRequestRepositoryTest {
      * Негативный тест получения всех сущностей типа FriendRequest из БД.
      */
     @Test
-    public void whenGetAllFriendRequests_ThenFriendRequestsAreFoundFail() {
+    public void whenGetAllFriendRequestsThenFriendRequestsAreFoundFail() {
         List<FriendRequest> foundFriendRequests = friendRequestRepository.findAll();
 
         assertTrue(foundFriendRequests.isEmpty(), "Список должен быть пустым");
@@ -191,7 +191,7 @@ class FriendRequestRepositoryTest {
      * Позитивный тест получения сущности FriendRequest из БД по ID.
      */
     @Test
-    public void whenGetFriendRequestById_ThenFriendRequestIsFoundSuccess() {
+    public void whenGetFriendRequestByIdThenFriendRequestIsFoundSuccess() {
         User senderUser = new User();
         senderUser.setUsername("Sender");
         senderUser.setEmail("sender@example.com");
@@ -233,7 +233,7 @@ class FriendRequestRepositoryTest {
      * Негативный тест получения сущности FriendRequest из БД по ID.
      */
     @Test
-    public void whenGetFriendRequestById_ThenFriendRequestIsFoundFail() {
+    public void whenGetFriendRequestByIdThenFriendRequestIsFoundFail() {
         Optional<FriendRequest> friendRequest = friendRequestRepository.findById(-1L);
 
         assertFalse(friendRequest.isPresent(), "FriendRequest не должен присутствовать в базе данных");
@@ -243,7 +243,7 @@ class FriendRequestRepositoryTest {
      * Позитивный тест обновления сущности FriendRequest.
      */
     @Test
-    public void whenUpdateFriendRequest_ThenFriendRequestIsUpdatedSuccess() {
+    public void whenUpdateFriendRequestThenFriendRequestIsUpdatedSuccess() {
         User senderUser = new User();
         senderUser.setUsername("Sender");
         senderUser.setEmail("sender@example.com");
@@ -291,7 +291,7 @@ class FriendRequestRepositoryTest {
      * Негативный тест обновления сущности FriendRequest.
      */
     @Test
-    public void whenUpdateFriendRequest_ThenFriendRequestIsUpdatedFail() {
+    public void whenUpdateFriendRequestThenFriendRequestIsUpdatedFail() {
         User senderUser = new User();
         senderUser.setUsername("Sender");
         senderUser.setEmail("sender@example.com");
@@ -340,7 +340,7 @@ class FriendRequestRepositoryTest {
      * Позитивный тест удаления сущности FriendRequest.
      */
     @Test
-    public void whenDeleteFriendRequest_ThenFriendRequestIsDeletedSuccess() {
+    public void whenDeleteFriendRequestThenFriendRequestIsDeletedSuccess() {
         User senderUser = new User();
         senderUser.setUsername("Sender");
         senderUser.setEmail("sender@example.com");
@@ -388,7 +388,7 @@ class FriendRequestRepositoryTest {
      * Негативный тест удаления сущности FriendRequest.
      */
     @Test
-    public void whenDeleteFriendRequest_ThenFriendRequestIsDeletedFail() {
+    public void whenDeleteFriendRequestThenFriendRequestIsDeletedFail() {
         Long nonExistentId = 999L;
         long initialCount = friendRequestRepository.count();
 

@@ -34,7 +34,7 @@ class ImageRepositoryTest {
      * Позитивный тест сохранения сущности Image.
      */
     @Test
-    public void whenSaveImage_ThenImageIsSavedSuccess() {
+    public void whenSaveImageThenImageIsSavedSuccess() {
         Image image = new Image();
         image.setName("test");
         image.setImageUrl("http://localhost:8080/images/1");
@@ -49,7 +49,7 @@ class ImageRepositoryTest {
      * Негативный тест сохранения сущности Image.
      */
     @Test
-    public void whenSaveImage_ThenImageIsNotSavedFail() {
+    public void whenSaveImageThenImageIsNotSavedFail() {
         Image image = new Image();
         image.setName("test");
         image.setImageUrl("http://localhost:8080/images/1");
@@ -64,7 +64,7 @@ class ImageRepositoryTest {
      * Позитивный тест вывода всех объектов типа Image.
      */
     @Test
-    public void whenGetAllImages_ThenImagesAreFoundSuccess() {
+    public void whenGetAllImagesThenImagesAreFoundSuccess() {
         Image image1 = new Image();
         image1.setName("test1");
         image1.setImageUrl("http://localhost:8080/images/1");
@@ -87,7 +87,7 @@ class ImageRepositoryTest {
      * Негативный тест вывода всех объектов типа Image.
      */
     @Test
-    public void whenGetAllImages_ThenImagesAreFoundFail() {
+    public void whenGetAllImagesThenImagesAreFoundFail() {
         List<Image> images = imageRepository.findAll();
 
         assertTrue(images.isEmpty(), "Список объектов типа Image должен быть пустым");
@@ -97,7 +97,7 @@ class ImageRepositoryTest {
      * Позитивный тест поиска сущности типа Image по ID.
      */
     @Test
-    public void whenGetImageById_ThenImageIsFoundSuccess() {
+    public void whenGetImageByIdThenImageIsFoundSuccess() {
         Image image = new Image();
         image.setName("test");
         image.setImageUrl("http://localhost:8080/images/1");
@@ -114,7 +114,7 @@ class ImageRepositoryTest {
      * Негативный тест поиска сущности типа Image по ID.
      */
     @Test
-    public void whenGetImageById_ThenImageIsFoundFail() {
+    public void whenGetImageByIdThenImageIsFoundFail() {
         Optional<Image> optionalImage = imageRepository.findById(-1L);
 
         assertFalse(optionalImage.isPresent(), "Image не должен присутствовать в базе данных.");
@@ -124,7 +124,7 @@ class ImageRepositoryTest {
      * Позитивный тест обновления сущности Image.
      */
     @Test
-    public void whenUpdateImage_ThenImageIsUpdatedSuccess() {
+    public void whenUpdateImageThenImageIsUpdatedSuccess() {
         Image image = new Image();
         image.setName("test");
         image.setImageUrl("http://localhost:8080/images/1");
@@ -149,7 +149,7 @@ class ImageRepositoryTest {
      * Негативный тест обновления сущности типа Image.
      */
     @Test
-    public void whenUpdateImage_ThenImageIsUpdatedFail() {
+    public void whenUpdateImageThenImageIsUpdatedFail() {
         Image image = new Image();
         image.setName("test");
         image.setImageUrl("http://localhost:8080/images/1");
@@ -173,7 +173,7 @@ class ImageRepositoryTest {
      * Позитивный тест удаления сущности Image.
      */
     @Test
-    public void whenDeleteImage_ThenImageIsDeletedSuccess() {
+    public void whenDeleteImageThenImageIsDeletedSuccess() {
         Image image = new Image();
         image.setName("test");
         image.setImageUrl("http://localhost:8080/images/1");
@@ -195,7 +195,7 @@ class ImageRepositoryTest {
      * Негативный тест удаления сущности Image.
      */
     @Test
-    public void whenDeleteImage_ThenImageIsDeletedFail() {
+    public void whenDeleteImageThenImageIsDeletedFail() {
         Long nonExistentId = 999L;
         long initialCount = imageRepository.count();
 

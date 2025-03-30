@@ -40,7 +40,7 @@ class SubscriptionRepositoryTest {
      * Позитивный тест сохранения сущности Subscription в БД.
      */
     @Test
-    public void whenSaveSubscription_ThenSubscriptionIsSavedSuccess() {
+    public void whenSaveSubscriptionThenSubscriptionIsSavedSuccess() {
         User subscriberUser = new User();
         subscriberUser.setUsername("Subscriber");
         subscriberUser.setEmail("subscriber@example.com");
@@ -81,7 +81,7 @@ class SubscriptionRepositoryTest {
      * Негативный тест сохранения сущности Subscription в БД.
      */
     @Test
-    public void whenSaveSubscription_ThenSubscriptionIsSavedFail() {
+    public void whenSaveSubscriptionThenSubscriptionIsSavedFail() {
         User subscriberUser = new User();
         subscriberUser.setUsername("Subscriber");
         subscriberUser.setEmail("subscriber@example.com");
@@ -123,7 +123,7 @@ class SubscriptionRepositoryTest {
      * Позитивный тест получения всех сущностей типа Subscription из БД.
      */
     @Test
-    public void whenGetAllSubscriptions_ThenSubscriptionsAreFoundSuccess() {
+    public void whenGetAllSubscriptionsThenSubscriptionsAreFoundSuccess() {
         User subscriberUser1 = new User();
         subscriberUser1.setUsername("Sender1");
         subscriberUser1.setEmail("sender1@example.com");
@@ -178,7 +178,7 @@ class SubscriptionRepositoryTest {
      * Негативный тест получения всех сущностей типа Subscription из БД.
      */
     @Test
-    public void whenGetAllSubscriptions_ThenSubscriptionsAreFoundFail() {
+    public void whenGetAllSubscriptionsThenSubscriptionsAreFoundFail() {
         List<Subscription> foundSubscriptions = subscriptionRepository.findAll();
 
         assertTrue(foundSubscriptions.isEmpty(), "Список подписок должен быть пустым");
@@ -188,7 +188,7 @@ class SubscriptionRepositoryTest {
      * Позитивный тест получения сущности Subscription по ID.
      */
     @Test
-    public void whenGetSubscriptionById_ThenSubscriptionIsFoundSuccess() {
+    public void whenGetSubscriptionByIdThenSubscriptionIsFoundSuccess() {
         User subscriberUser = new User();
         subscriberUser.setUsername("Subscriber");
         subscriberUser.setEmail("subscriber@example.com");
@@ -230,7 +230,7 @@ class SubscriptionRepositoryTest {
      * Негативный тест получения сущности Subscription по ID.
      */
     @Test
-    public void whenGetSubscriptionById_ThenSubscriptionIsFoundFail() {
+    public void whenGetSubscriptionByIdThenSubscriptionIsFoundFail() {
         Optional<Subscription> optionalSavedSubscription = subscriptionRepository.findById(-1L);
 
         assertFalse(optionalSavedSubscription.isPresent(), "Subscription не должен присутствовать в базе данных");
@@ -240,7 +240,7 @@ class SubscriptionRepositoryTest {
      * Позитивный тест обновления сущности Subscription.
      */
     @Test
-    public void whenUpdateSubscription_ThenSubscriptionIsUpdatedSuccess() {
+    public void whenUpdateSubscriptionThenSubscriptionIsUpdatedSuccess() {
         User subscriberUser = new User();
         subscriberUser.setUsername("Subscriber");
         subscriberUser.setEmail("subscriber@example.com");
@@ -290,7 +290,7 @@ class SubscriptionRepositoryTest {
      * Негативный тест обновления сущности Subscription.
      */
     @Test
-    public void whenUpdateSubscription_ThenSubscriptionIsUpdatedFail() {
+    public void whenUpdateSubscriptionThenSubscriptionIsUpdatedFail() {
         User subscriberUser = new User();
         subscriberUser.setUsername("Subscriber");
         subscriberUser.setEmail("subscriber@example.com");
@@ -340,7 +340,7 @@ class SubscriptionRepositoryTest {
      * Позитивный тест удаления сущности Subscription.
      */
     @Test
-    public void whenDeleteSubscriptionById_ThenSubscriptionIsDeletedSuccess() {
+    public void whenDeleteSubscriptionByIdThenSubscriptionIsDeletedSuccess() {
         User subscriberUser = new User();
         subscriberUser.setUsername("Subscriber");
         subscriberUser.setEmail("subscriber@example.com");
@@ -387,7 +387,7 @@ class SubscriptionRepositoryTest {
      * Негативный тест удаления сущности Subscription.
      */
     @Test
-    public void whenDeleteSubscriptionById_ThenSubscriptionIsDeletedFail() {
+    public void whenDeleteSubscriptionByIdThenSubscriptionIsDeletedFail() {
         Long nonExistentId = 999L;
         long initialCount = subscriptionRepository.count();
 

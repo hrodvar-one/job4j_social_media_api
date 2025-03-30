@@ -34,7 +34,7 @@ class UserRepositoryTest {
      * Позитивный тест сохранения пользователя.
      */
     @Test
-    public void whenSaveUser_ThenUserIsSavedSuccess() {
+    public void whenSaveUserThenUserIsSavedSuccess() {
         User user = new User();
         user.setUsername("John");
         user.setEmail("john@example.com");
@@ -50,7 +50,7 @@ class UserRepositoryTest {
      * Негативный тест сохранения пользователя.
      */
     @Test
-    public void whenSaveUser_ThenUserIsSavedFail() {
+    public void whenSaveUserThenUserIsSavedFail() {
         User user = new User();
         user.setUsername("John");
         user.setEmail("john@example.com");
@@ -66,7 +66,7 @@ class UserRepositoryTest {
      * Позитивный тест вывода всех объектов типа User.
      */
     @Test
-    public void whenGetAllUsers_ThenUsersAreFoundSuccess() {
+    public void whenGetAllUsersThenUsersAreFoundSuccess() {
         User user1 = new User();
         user1.setUsername("John");
         user1.setEmail("john@example.com");
@@ -91,7 +91,7 @@ class UserRepositoryTest {
      * Негативный тест вывода всех объектов типа User.
      */
     @Test
-    public void whenGetAllUsers_ThenUsersAreFoundFail() {
+    public void whenGetAllUsersThenUsersAreFoundFail() {
         List<User> users = userRepository.findAll();
 
         assertTrue(users.isEmpty(), "Список пользователей должен быть пустым");
@@ -101,7 +101,7 @@ class UserRepositoryTest {
      * Позитивный тест поиска User по ID.
      */
     @Test
-    public void whenGetUserById_ThenUserIsFoundSuccess() {
+    public void whenGetUserByIdThenUserIsFoundSuccess() {
         User user = new User();
         user.setUsername("John");
         user.setEmail("john@example.com");
@@ -119,7 +119,7 @@ class UserRepositoryTest {
      * Негативный тест поиска User по ID.
      */
     @Test
-    public void whenGetUserById_ThenUserIsFoundFail() {
+    public void whenGetUserByIdThenUserIsFoundFail() {
         Optional<User> optionalUser = userRepository.findById(-1L);
 
         assertFalse(optionalUser.isPresent(), "Пользователь не должен присутствовать в базе данных.");
@@ -129,7 +129,7 @@ class UserRepositoryTest {
      * Позитивный тест обновления сущности User.
      */
     @Test
-    public void whenUpdateUser_ThenUserIsUpdatedSuccess() {
+    public void whenUpdateUserThenUserIsUpdatedSuccess() {
         User user = new User();
         user.setUsername("John");
         user.setEmail("john@example.com");
@@ -155,7 +155,7 @@ class UserRepositoryTest {
      * Негативный тест обновления объекта типа User.
      */
     @Test
-    public void whenUpdateUser_ThenUserIsUpdatedFail() {
+    public void whenUpdateUserThenUserIsUpdatedFail() {
         User user = new User();
         user.setUsername("John");
         user.setEmail("john@example.com");
@@ -180,7 +180,7 @@ class UserRepositoryTest {
      * Позитивный тест удаления сущности User.
      */
     @Test
-    public void whenDeleteUser_ThenUserIsDeletedSuccess() {
+    public void whenDeleteUserThenUserIsDeletedSuccess() {
         User user = new User();
         user.setUsername("John");
         user.setEmail("john@example.com");
@@ -203,7 +203,7 @@ class UserRepositoryTest {
      * Негативный тест удаления объекта типа User.
      */
     @Test
-    public void whenDeleteUser_ThenUserIsDeletedFail() {
+    public void whenDeleteUserThenUserIsDeletedFail() {
         Long nonExistentId = 999L;
         long initialCount = userRepository.count();
 

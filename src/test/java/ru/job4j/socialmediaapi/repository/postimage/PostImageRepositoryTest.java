@@ -52,7 +52,7 @@ class PostImageRepositoryTest {
      * Позитивный тест сохранения сущности PostImage.
      */
     @Test
-    public void whenSavePostImage_ThenPostImageSavedSuccess() {
+    public void whenSavePostImageThenPostImageSavedSuccess() {
         User user = new User();
         user.setUsername("John");
         user.setEmail("john@example.com");
@@ -104,7 +104,7 @@ class PostImageRepositoryTest {
      * Негативный тест сохранения сущности PostImage.
      */
     @Test
-    public void whenSavePostImage_ThenPostImageSavedFail() {
+    public void whenSavePostImageThenPostImageSavedFail() {
         User user = new User();
         user.setUsername("John");
         user.setEmail("john@example.com");
@@ -158,7 +158,7 @@ class PostImageRepositoryTest {
      * Позитивный тест вывода всех сущностей типа PostImage.
      */
     @Test
-    public void whenGetAllPostImages_ThenPostImagesFoundSuccess() {
+    public void whenGetAllPostImagesThenPostImagesFoundSuccess() {
         User user = new User();
         user.setUsername("John");
         user.setEmail("john@example.com");
@@ -209,7 +209,7 @@ class PostImageRepositoryTest {
      * Негативный тест вывода всех сущностей типа PostImage.
      */
     @Test
-    public void whenGetAllPostImages_ThenPostImagesFoundFail() {
+    public void whenGetAllPostImagesThenPostImagesFoundFail() {
         List<PostImage> postImages = postImageRepository.findAll();
 
         assertTrue(postImages.isEmpty(), "Список PostImages должен быть пустым");
@@ -219,7 +219,7 @@ class PostImageRepositoryTest {
      * Позитивный тест получения сущности PostImage по id.
      */
     @Test
-    public void whenGetPostImageById_ThenPostImageFoundSuccess() {
+    public void whenGetPostImageByIdThenPostImageFoundSuccess() {
         User user = new User();
         user.setUsername("John");
         user.setEmail("john@example.com");
@@ -259,7 +259,7 @@ class PostImageRepositoryTest {
      * Негативный тест получения сущности PostImage по id.
      */
     @Test
-    public void whenGetPostImageById_ThenPostImageFoundFail() {
+    public void whenGetPostImageByIdThenPostImageFoundFail() {
         Optional<PostImage> optionalPostImage = postImageRepository.findById(-1L);
 
         assertFalse(optionalPostImage.isPresent(), "PostImage не должен присутствовать в базе данных");
@@ -269,7 +269,7 @@ class PostImageRepositoryTest {
      * Позитивный тест обновления сущности PostImage.
      */
     @Test
-    public void whenUpdatePostImage_ThenPostImageUpdatedSuccess() {
+    public void whenUpdatePostImageThenPostImageUpdatedSuccess() {
         User user = new User();
         user.setUsername("John");
         user.setEmail("john@example.com");
@@ -322,7 +322,7 @@ class PostImageRepositoryTest {
      * Негативный тест обновления сущности PostImage.
      */
     @Test
-    public void whenUpdatePostImage_ThenPostImageUpdatedFail() {
+    public void whenUpdatePostImageThenPostImageUpdatedFail() {
         User user = new User();
         user.setUsername("John");
         user.setEmail("john@example.com");
@@ -371,7 +371,7 @@ class PostImageRepositoryTest {
      * Позитивный тест удаления сущности PostImage.
      */
     @Test
-    public void whenDeletePostImage_ThenPostImageIsDeletedSuccess() {
+    public void whenDeletePostImageThenPostImageIsDeletedSuccess() {
         User user = new User();
         user.setUsername("John");
         user.setEmail("john@example.com");
@@ -416,7 +416,7 @@ class PostImageRepositoryTest {
      * Негативный тест удаления сущности PostImage.
      */
     @Test
-    public void whenDeletePostImage_ThenPostImageIsDeletedFail() {
+    public void whenDeletePostImageThenPostImageIsDeletedFail() {
         Long nonExistentId = 999L;
         long initialCount = postImageRepository.count();
 
