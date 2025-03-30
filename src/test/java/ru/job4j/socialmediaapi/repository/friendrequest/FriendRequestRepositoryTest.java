@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
 import ru.job4j.socialmediaapi.entity.FriendRequest;
 import ru.job4j.socialmediaapi.entity.User;
@@ -18,6 +19,7 @@ import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
+@ActiveProfiles("test")
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @Transactional
 class FriendRequestRepositoryTest {
@@ -225,5 +227,172 @@ class FriendRequestRepositoryTest {
 
         assertTrue(optionalSavedFriendRequest.isPresent(), "Сохранённый FriendRequest не должен быть пустым");
         assertEquals(friendRequest.getStatus(), optionalSavedFriendRequest.get().getStatus(), "Status должен совпадать");
+    }
+
+    /**
+     * Негативный тест получения сущности FriendRequest из БД по ID.
+     */
+    @Test
+    public void whenGetFriendRequestById_ThenFriendRequestIsFoundFail() {
+        Optional<FriendRequest> friendRequest = friendRequestRepository.findById(-1L);
+
+        assertFalse(friendRequest.isPresent(), "FriendRequest не должен присутствовать в базе данных");
+    }
+
+    /**
+     * Позитивный тест обновления сущности FriendRequest.
+     */
+    @Test
+    public void whenUpdateFriendRequest_ThenFriendRequestIsUpdatedSuccess() {
+        User senderUser = new User();
+        senderUser.setUsername("Sender");
+        senderUser.setEmail("sender@example.com");
+        senderUser.setPasswordHash("12345");
+        senderUser.setCreatedAt(LocalDateTime.now());
+
+        User receiverUser = new User();
+        receiverUser.setUsername("Receiver");
+        receiverUser.setEmail("john@example.com");
+        receiverUser.setPasswordHash("12345");
+        receiverUser.setCreatedAt(LocalDateTime.now());
+
+        userRepository.save(senderUser);
+        userRepository.save(receiverUser);
+
+        Optional<User> optionalSavedSenderUser = userRepository.findById(senderUser.getId());
+
+        assertThat(optionalSavedSenderUser).isPresent();
+
+        Optional<User> optionalSavedReceiverUser = userRepository.findById(receiverUser.getId());
+
+        assertThat(optionalSavedReceiverUser).isPresent();
+
+        FriendRequest friendRequest = new FriendRequest();
+        friendRequest.setSenderId(optionalSavedSenderUser.get().getId());
+        friendRequest.setReceiverId(optionalSavedReceiverUser.get().getId());
+        friendRequest.setStatus("pending");
+        friendRequest.setCreatedAt(LocalDateTime.now());
+
+        friendRequestRepository.save(friendRequest);
+
+        Optional<FriendRequest> optionalSavedFriendRequest = friendRequestRepository.findById(friendRequest.getId());
+        assertTrue(optionalSavedFriendRequest.isPresent(), "Сохранённый FriendRequest не должен быть пустым");
+
+        friendRequest.setStatus("accepted");
+        friendRequestRepository.save(friendRequest);
+
+        Optional<FriendRequest> optionalUpdatedFriendRequest = friendRequestRepository.findById(friendRequest.getId());
+        assertTrue(optionalUpdatedFriendRequest.isPresent(), "Обновлённый FriendRequest не должен быть пустым");
+
+        assertEquals("accepted", optionalUpdatedFriendRequest.get().getStatus(), "Status у FriendRequest должен быть обновлен");
+    }
+
+    /**
+     * Негативный тест обновления сущности FriendRequest.
+     */
+    @Test
+    public void whenUpdateFriendRequest_ThenFriendRequestIsUpdatedFail() {
+        User senderUser = new User();
+        senderUser.setUsername("Sender");
+        senderUser.setEmail("sender@example.com");
+        senderUser.setPasswordHash("12345");
+        senderUser.setCreatedAt(LocalDateTime.now());
+
+        User receiverUser = new User();
+        receiverUser.setUsername("Receiver");
+        receiverUser.setEmail("john@example.com");
+        receiverUser.setPasswordHash("12345");
+        receiverUser.setCreatedAt(LocalDateTime.now());
+
+        userRepository.save(senderUser);
+        userRepository.save(receiverUser);
+
+        Optional<User> optionalSavedSenderUser = userRepository.findById(senderUser.getId());
+
+        assertThat(optionalSavedSenderUser).isPresent();
+
+        Optional<User> optionalSavedReceiverUser = userRepository.findById(receiverUser.getId());
+
+        assertThat(optionalSavedReceiverUser).isPresent();
+
+        FriendRequest friendRequest = new FriendRequest();
+        friendRequest.setSenderId(optionalSavedSenderUser.get().getId());
+        friendRequest.setReceiverId(optionalSavedReceiverUser.get().getId());
+        friendRequest.setStatus("pending");
+        friendRequest.setCreatedAt(LocalDateTime.now());
+
+        friendRequestRepository.save(friendRequest);
+
+        Optional<FriendRequest> optionalSavedFriendRequest = friendRequestRepository.findById(friendRequest.getId());
+        assertTrue(optionalSavedFriendRequest.isPresent(), "Сохранённый FriendRequest не должен быть пустым");
+
+        friendRequest.setStatus("accepted");
+        friendRequestRepository.save(friendRequest);
+
+        Optional<FriendRequest> optionalUpdatedFriendRequest = friendRequestRepository.findById(friendRequest.getId());
+        assertTrue(optionalUpdatedFriendRequest.isPresent(), "Обновлённый FriendRequest не должен быть пустым");
+
+        assertNotEquals("pending", optionalUpdatedFriendRequest.get().getStatus(),
+                "Status у FriendRequest должен быть обновлен");
+    }
+
+    /**
+     * Позитивный тест удаления сущности FriendRequest.
+     */
+    @Test
+    public void whenDeleteFriendRequest_ThenFriendRequestIsDeletedSuccess() {
+        User senderUser = new User();
+        senderUser.setUsername("Sender");
+        senderUser.setEmail("sender@example.com");
+        senderUser.setPasswordHash("12345");
+        senderUser.setCreatedAt(LocalDateTime.now());
+
+        User receiverUser = new User();
+        receiverUser.setUsername("Receiver");
+        receiverUser.setEmail("john@example.com");
+        receiverUser.setPasswordHash("12345");
+        receiverUser.setCreatedAt(LocalDateTime.now());
+
+        userRepository.save(senderUser);
+        userRepository.save(receiverUser);
+
+        Optional<User> optionalSavedSenderUser = userRepository.findById(senderUser.getId());
+
+        assertThat(optionalSavedSenderUser).isPresent();
+
+        Optional<User> optionalSavedReceiverUser = userRepository.findById(receiverUser.getId());
+
+        assertThat(optionalSavedReceiverUser).isPresent();
+
+        FriendRequest friendRequest = new FriendRequest();
+        friendRequest.setSenderId(optionalSavedSenderUser.get().getId());
+        friendRequest.setReceiverId(optionalSavedReceiverUser.get().getId());
+        friendRequest.setStatus("pending");
+        friendRequest.setCreatedAt(LocalDateTime.now());
+
+        friendRequestRepository.save(friendRequest);
+
+        Optional<FriendRequest> optionalSavedFriendRequest = friendRequestRepository.findById(friendRequest.getId());
+        assertTrue(optionalSavedFriendRequest.isPresent(), "Сохранённый FriendRequest не должен быть пустым");
+
+        friendRequestRepository.delete(optionalSavedFriendRequest.get());
+
+        Optional<FriendRequest> optionalDeletedFriendRequest = friendRequestRepository.findById(
+                optionalSavedFriendRequest.get().getId());
+
+        assertFalse(optionalDeletedFriendRequest.isPresent(),
+                "FriendRequest не должен присутствовать в базе данных.");
+    }
+
+    /**
+     * Негативный тест удаления сущности FriendRequest.
+     */
+    @Test
+    public void whenDeleteFriendRequest_ThenFriendRequestIsDeletedFail() {
+        Long nonExistentId = 999L;
+        long initialCount = friendRequestRepository.count();
+
+        assertDoesNotThrow(() -> friendRequestRepository.deleteById(nonExistentId));
+        assertEquals(initialCount, friendRequestRepository.count());
     }
 }
