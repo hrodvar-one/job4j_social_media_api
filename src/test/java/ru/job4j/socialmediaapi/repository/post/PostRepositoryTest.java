@@ -5,6 +5,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
 import ru.job4j.socialmediaapi.entity.Post;
@@ -310,5 +312,167 @@ class PostRepositoryTest {
 
         assertDoesNotThrow(() -> postRepository.deleteById(nonExistentId));
         assertEquals(initialCount, postRepository.count());
+    }
+
+    /**
+     * Позитивный тест получения всех сущностей Post по пользователю.
+     */
+    @Test
+    public void whenGetPostsByUserIdThenPostsAreFoundSuccess() {
+        User user = new User();
+        user.setUsername("John");
+        user.setEmail("john@example.com");
+        user.setPasswordHash("12345");
+        user.setCreatedAt(LocalDateTime.now());
+
+        userRepository.save(user);
+
+        Optional<User> optionalSavedUser = userRepository.findById(user.getId());
+
+        assertThat(optionalSavedUser).isPresent();
+
+        Post post1 = new Post();
+        post1.setTitle("Post 1");
+        post1.setContent("This is post 1.");
+        post1.setUser(optionalSavedUser.get());
+        post1.setCreatedAt(LocalDateTime.now());
+        post1.setUpdatedAt(LocalDateTime.now());
+
+        Post post2 = new Post();
+        post2.setTitle("Post 2");
+        post2.setContent("This is post 2.");
+        post2.setUser(optionalSavedUser.get());
+        post2.setCreatedAt(LocalDateTime.now());
+        post2.setUpdatedAt(LocalDateTime.now());
+
+        postRepository.save(post1);
+        postRepository.save(post2);
+
+        List<Post> posts = postRepository.findByUserId(user.getId());
+
+        assertThat(posts).hasSize(2);
+        assertThat(posts).containsExactlyInAnyOrder(post1, post2);
+    }
+
+    /**
+     * Негативный тест получения всех сущностей Post по пользователю.
+     */
+    @Test
+    public void whenGetPostsByUserIdThenPostsAreFoundFail() {
+        List<Post> posts = postRepository.findByUserId(-1L);
+
+        assertTrue(posts.isEmpty(), "Список пользователей должен быть пустым");
+    }
+
+    /**
+     * Позитивный тест получения всех сущностей Post в диапазоне дат.
+     */
+    @Test
+    public void whenGetPostsByCreatedAtBetweenThenPostsAreFoundSuccess() {
+        User user = new User();
+        user.setUsername("John");
+        user.setEmail("john@example.com");
+        user.setPasswordHash("12345");
+        user.setCreatedAt(LocalDateTime.now());
+
+        userRepository.save(user);
+
+        Optional<User> optionalSavedUser = userRepository.findById(user.getId());
+
+        assertThat(optionalSavedUser).isPresent();
+
+        Post post1 = new Post();
+        post1.setTitle("Post 1");
+        post1.setContent("This is post 1.");
+        post1.setUser(optionalSavedUser.get());
+        post1.setCreatedAt(LocalDateTime.parse("2025-03-20T00:00:00"));
+        post1.setUpdatedAt(LocalDateTime.parse("2025-03-21T00:00:00"));
+
+        Post post2 = new Post();
+        post2.setTitle("Post 2");
+        post2.setContent("This is post 2.");
+        post2.setUser(optionalSavedUser.get());
+        post2.setCreatedAt(LocalDateTime.parse("2025-03-25T00:00:00"));
+        post2.setUpdatedAt(LocalDateTime.parse("2025-03-26T00:00:00"));
+
+        postRepository.save(post1);
+        postRepository.save(post2);
+
+        List<Post> posts = postRepository.findByCreatedAtBetween(
+                LocalDateTime.parse("2025-03-19T00:00:00"),
+                LocalDateTime.parse("2025-03-27T23:59:59"));
+
+        assertThat(posts).hasSize(2);
+        assertThat(posts).containsExactlyInAnyOrder(post1, post2);
+    }
+
+    /**
+     * Негативный тест получения всех сущностей Post в диапазоне дат.
+     */
+    @Test
+    public void whenGetPostsByCreatedAtBetweenThenPostsAreFoundFail() {
+        List<Post> posts = postRepository.findByCreatedAtBetween(
+                LocalDateTime.parse("2025-03-19T00:00:00"),
+                LocalDateTime.parse("2025-03-27T23:59:59"));
+
+        assertTrue(posts.isEmpty(), "Список пользователей должен быть пустым");
+    }
+
+    /**
+     * Позитивный тест получения всех сущностей Post отсортированных по дате с пагинацией.
+     */
+    @Test
+    public void whenGetPostsByCreatedAtOrderByCreatedAtDescPagedThenPostsAreFoundSuccess() {
+        User user1 = new User();
+        user1.setUsername("John");
+        user1.setEmail("john@example.com");
+        user1.setPasswordHash("12345");
+        user1.setCreatedAt(LocalDateTime.now());
+
+        User user2 = new User();
+        user2.setUsername("Jane");
+        user2.setEmail("jane@example.com");
+        user2.setPasswordHash("54321");
+        user2.setCreatedAt(LocalDateTime.now());
+
+        userRepository.save(user1);
+        userRepository.save(user2);
+
+        Optional<User> optionalSavedUser1 = userRepository.findById(user1.getId());
+        Optional<User> optionalSavedUser2 = userRepository.findById(user2.getId());
+
+        assertThat(optionalSavedUser1).isPresent();
+        assertThat(optionalSavedUser2).isPresent();
+
+        Post post1 = new Post();
+        post1.setTitle("Post 1");
+        post1.setContent("This is post 1.");
+        post1.setUser(optionalSavedUser1.get());
+        post1.setCreatedAt(LocalDateTime.parse("2025-03-20T00:00:00"));
+        post1.setUpdatedAt(LocalDateTime.parse("2025-03-21T00:00:00"));
+
+        Post post2 = new Post();
+        post2.setTitle("Post 2");
+        post2.setContent("This is post 2.");
+        post2.setUser(optionalSavedUser2.get());
+        post2.setCreatedAt(LocalDateTime.parse("2025-03-25T00:00:00"));
+        post2.setUpdatedAt(LocalDateTime.parse("2025-03-26T00:00:00"));
+
+        postRepository.save(post1);
+        postRepository.save(post2);
+
+        Page<Post> pagedPosts = postRepository.findAllByOrderByCreatedAtDesc(PageRequest.of(0, 1));
+
+        assertThat(pagedPosts).hasSize(1);
+    }
+
+    /**
+     * Негативный тест получения всех сущностей Post отсортированных по дате с пагинацией.
+     */
+    @Test
+    public void whenGetPostsByCreatedAtOrderByCreatedAtDescPagedThenPostsAreFoundFail() {
+        Page<Post> pagedPosts = postRepository.findAllByOrderByCreatedAtDesc(PageRequest.of(0, 1));
+
+        assertTrue(pagedPosts.isEmpty(), "Страница с постами должна быть пустой");
     }
 }
