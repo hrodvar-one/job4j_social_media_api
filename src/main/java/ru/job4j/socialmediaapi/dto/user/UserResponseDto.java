@@ -1,4 +1,4 @@
-package ru.job4j.socialmediaapi.dto;
+package ru.job4j.socialmediaapi.dto.user;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -11,12 +11,10 @@ import java.time.LocalDateTime;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class PostDto {
+public class UserResponseDto {
 
     private Long id;
-    private String title;
-    private String content;
-    private Long userId;
+    private String username;
+    private String email;
     private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
 }
