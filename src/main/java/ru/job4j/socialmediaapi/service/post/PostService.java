@@ -65,7 +65,9 @@ public class PostService {
     }
 
     public void deletePostById(Long id) {
-        postRepository.deleteById(id);
+        Post post = postRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Пост не найден с id: " + id));
+        postRepository.delete(post);
     }
 
     @Transactional

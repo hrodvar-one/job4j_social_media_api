@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import ru.job4j.socialmediaapi.dto.user.UserRequestDto;
 import ru.job4j.socialmediaapi.dto.user.UserResponseDto;
 import ru.job4j.socialmediaapi.entity.User;
+import ru.job4j.socialmediaapi.exeption.ResourceNotFoundException;
 import ru.job4j.socialmediaapi.mapper.UserMapper;
 import ru.job4j.socialmediaapi.repository.user.UserRepository;
 
@@ -33,12 +34,13 @@ public class UserService {
     public UserResponseDto getUserById(Long id) {
         return userRepository.findById(id)
                 .map(UserMapper::toResponseDto)
-                .orElseThrow(() -> new RuntimeException("Пользователь не найден"));
+                .orElseThrow(() -> new ResourceNotFoundException("Пользователь не найден с id: " + id));
     }
 
     public UserResponseDto updateUser(Long id, UserRequestDto userRequestDto) {
         User user = userRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Пользователь не найден"));
+                .orElseThrow(() -> new ResourceNotFoundException(
+                        "Пользователь не найден с id: " + id));
         user.setUsername(userRequestDto.getUsername());
         user.setEmail(userRequestDto.getEmail());
         user.setPasswordHash(hashPassword(userRequestDto.getPassword()));
@@ -47,7 +49,9 @@ public class UserService {
     }
 
     public void deleteUserById(Long id) {
-        userRepository.deleteById(id);
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Пользователь не найден с id: " + id));
+        userRepository.delete(user);
     }
 
     /**

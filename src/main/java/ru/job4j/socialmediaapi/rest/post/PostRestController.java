@@ -3,6 +3,7 @@ package ru.job4j.socialmediaapi.rest.post;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import ru.job4j.socialmediaapi.dto.post.PostDto;
 import ru.job4j.socialmediaapi.dto.post.PostRequestDto;
 import ru.job4j.socialmediaapi.service.post.PostService;
@@ -19,18 +20,31 @@ public class PostRestController {
     @PostMapping
     public ResponseEntity<PostDto> savePost(@RequestBody PostRequestDto postRequestDto) {
         PostDto postDto = postService.savePost(postRequestDto);
-        return ResponseEntity.ok(postDto);
+        var uri = ServletUriComponentsBuilder
+                .fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(postDto.getId())
+                .toUri();
+        return ResponseEntity.ok()
+                .location(uri)
+                .body(postDto);
     }
 
     @GetMapping
     public ResponseEntity<List<PostDto>> getAllPosts() {
-        List<PostDto> posDtos = postService.getAllPosts();
-        return ResponseEntity.ok(posDtos);
+        List<PostDto> postDtos = postService.getAllPosts();
+        if (postDtos.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(postDtos);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<PostDto> getPostById(@PathVariable("id") Long id) {
         PostDto postDto = postService.getPostById(id);
+        if (postDto == null) {
+            return ResponseEntity.notFound().build();
+        }
         return ResponseEntity.ok(postDto);
     }
 
@@ -38,6 +52,9 @@ public class PostRestController {
     public ResponseEntity<PostDto> updatePost(@PathVariable("id") Long id,
                                               @RequestBody PostRequestDto postRequestDto) {
         PostDto postDto = postService.updatePost(id, postRequestDto);
+        if (postDto == null) {
+            return ResponseEntity.notFound().build();
+        }
         return ResponseEntity.ok(postDto);
     }
 
