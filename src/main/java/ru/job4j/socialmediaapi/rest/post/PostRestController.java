@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import ru.job4j.socialmediaapi.dto.post.PostDto;
 import ru.job4j.socialmediaapi.dto.post.PostRequestDto;
+import ru.job4j.socialmediaapi.dto.post.UserPostsDto;
 import ru.job4j.socialmediaapi.service.post.PostService;
 
 import java.util.List;
@@ -62,5 +63,14 @@ public class PostRestController {
     public ResponseEntity<Void> deletePostById(@PathVariable("id") Long id) {
         postService.deletePostById(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("/by-users")
+    public ResponseEntity<List<UserPostsDto>> getPostsByUserIds(@RequestBody List<Long> userIds) {
+        List<UserPostsDto> userPosts = postService.getPostsByUserIds(userIds);
+        if (userPosts.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(userPosts);
     }
 }

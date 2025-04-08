@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import ru.job4j.socialmediaapi.dto.post.PostDto;
 import ru.job4j.socialmediaapi.dto.post.PostRequestDto;
+import ru.job4j.socialmediaapi.dto.post.UserPostsDto;
 import ru.job4j.socialmediaapi.entity.Post;
 import ru.job4j.socialmediaapi.entity.User;
 import ru.job4j.socialmediaapi.exeption.ResourceNotFoundException;
@@ -16,6 +17,7 @@ import ru.job4j.socialmediaapi.service.image.ImageService;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -101,6 +103,21 @@ public class PostService {
         Post existingPost = validateUserOwnsPost(postDto.getId(), postDto.getUserId());
 
         postRepository.delete(existingPost);
+    }
+
+    @Transactional(readOnly = true)
+    public List<UserPostsDto> getPostsByUserIds(List<Long> userIds) {
+        List<User> users = userRepository.findAllById(userIds);
+        return users.stream()
+                .map(user -> new UserPostsDto(
+                        user.getId(),
+                        user.getUsername(),
+                        postRepository.findByUserId(user.getId())
+                                .stream()
+                                .map(PostMapper::toDto)
+                                .collect(Collectors.toList())
+                ))
+                .collect(Collectors.toList());
     }
 
     private Post validateUserOwnsPost(Long postId, Long userId) {
