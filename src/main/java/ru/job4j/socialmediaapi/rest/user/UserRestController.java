@@ -1,5 +1,8 @@
 package ru.job4j.socialmediaapi.rest.user;
 
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,7 +21,8 @@ public class UserRestController {
     private final UserService userService;
 
     @PostMapping
-    public ResponseEntity<UserResponseDto> saveUser(@RequestBody UserRequestDto userRequestDto) {
+    public ResponseEntity<UserResponseDto> saveUser(@Valid
+                                                    @RequestBody UserRequestDto userRequestDto) {
         UserResponseDto userResponseDto = userService.saveUser(userRequestDto);
         var uri = ServletUriComponentsBuilder
                 .fromCurrentRequest()
@@ -40,7 +44,10 @@ public class UserRestController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<UserResponseDto> getUserById(@PathVariable("id") Long id) {
+    public ResponseEntity<UserResponseDto> getUserById(@PathVariable("id")
+                                                       @NotNull
+                                                       @Min(value = 1, message = "номер ресурса должен быть 1 и более")
+                                                       Long id) {
         UserResponseDto userResponseDto = userService.getUserById(id);
         if (userResponseDto == null) {
             return ResponseEntity.notFound().build();
@@ -49,7 +56,11 @@ public class UserRestController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<UserResponseDto> updateUser(@PathVariable("id") Long id,
+    public ResponseEntity<UserResponseDto> updateUser(@PathVariable("id")
+                                                      @NotNull
+                                                      @Min(value = 1, message = "номер ресурса должен быть 1 и более")
+                                                      Long id,
+                                                      @Valid
                                                       @RequestBody UserRequestDto userRequestDto) {
         UserResponseDto userResponseDto = userService.updateUser(id, userRequestDto);
         if (userResponseDto == null) {
@@ -59,7 +70,10 @@ public class UserRestController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteUserById(@PathVariable("id") Long id) {
+    public ResponseEntity<Void> deleteUserById(@PathVariable("id")
+                                               @NotNull
+                                               @Min(value = 1, message = "номер ресурса должен быть 1 и более")
+                                               Long id) {
         userService.deleteUserById(id);
         return ResponseEntity.noContent().build();
     }

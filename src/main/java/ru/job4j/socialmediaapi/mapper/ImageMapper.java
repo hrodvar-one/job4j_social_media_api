@@ -1,6 +1,6 @@
 package ru.job4j.socialmediaapi.mapper;
 
-import ru.job4j.socialmediaapi.dto.ImageDto;
+import ru.job4j.socialmediaapi.dto.image.ImageDto;
 import ru.job4j.socialmediaapi.entity.Image;
 
 public class ImageMapper {

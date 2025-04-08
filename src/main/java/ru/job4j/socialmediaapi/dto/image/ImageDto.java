@@ -1,4 +1,4 @@
-package ru.job4j.socialmediaapi.dto;
+package ru.job4j.socialmediaapi.dto.image;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

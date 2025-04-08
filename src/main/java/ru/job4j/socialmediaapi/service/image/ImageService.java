@@ -3,7 +3,7 @@ package ru.job4j.socialmediaapi.service.image;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-import ru.job4j.socialmediaapi.dto.ImageDto;
+import ru.job4j.socialmediaapi.dto.image.ImageDto;
 import ru.job4j.socialmediaapi.entity.Image;
 import ru.job4j.socialmediaapi.mapper.ImageMapper;
 import ru.job4j.socialmediaapi.repository.image.ImageRepository;
