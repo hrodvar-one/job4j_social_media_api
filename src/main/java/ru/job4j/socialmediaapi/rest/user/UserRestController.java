@@ -1,5 +1,9 @@
 package ru.job4j.socialmediaapi.rest.user;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
@@ -13,6 +17,7 @@ import ru.job4j.socialmediaapi.service.user.UserService;
 
 import java.util.List;
 
+@Tag(name = "UserRestController", description = "REST API для управления пользователями")
 @RestController
 @AllArgsConstructor
 @RequestMapping("/api/users")
@@ -20,6 +25,13 @@ public class UserRestController {
 
     private final UserService userService;
 
+    @Operation(
+            summary = "Сохранение пользователя",
+            description = "Эндпоинт сохраняет пользователя")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Пользователь успешно сохранен"),
+            @ApiResponse(responseCode = "400", description = "Ошибка валидиции")
+    })
     @PostMapping
     public ResponseEntity<UserResponseDto> saveUser(@Valid
                                                     @RequestBody UserRequestDto userRequestDto) {
@@ -34,6 +46,12 @@ public class UserRestController {
                 .body(userResponseDto);
     }
 
+    @Operation(
+            summary = "Получение списка всех пользователей",
+            description = "Эндпоинт возвращает список всех пользователей")
+    @ApiResponse(
+            responseCode = "200",
+            description = "Список пользователей")
     @GetMapping
     public ResponseEntity<List<UserResponseDto>> getAllUsers() {
         List<UserResponseDto> users = userService.getAllUsers();
@@ -43,6 +61,14 @@ public class UserRestController {
         return ResponseEntity.ok(users);
     }
 
+    @Operation(
+            summary = "Получение пользователя по id",
+            description = "Эндпоинт возвращает данные пользователя по его id"
+    )
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Пользователь найден"),
+            @ApiResponse(responseCode = "404", description = "Пользователь не найден")
+    })
     @GetMapping("/{id}")
     public ResponseEntity<UserResponseDto> getUserById(@PathVariable("id")
                                                        @NotNull
@@ -55,6 +81,11 @@ public class UserRestController {
         return ResponseEntity.ok(userResponseDto);
     }
 
+    @Operation(summary = "Обновить данные пользователя", description = "Обновляет информацию о пользователе по id")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Данные пользователя успешно обновлены"),
+            @ApiResponse(responseCode = "404", description = "Пользователь не найден")
+    })
     @PutMapping("/{id}")
     public ResponseEntity<UserResponseDto> updateUser(@PathVariable("id")
                                                       @NotNull
@@ -69,6 +100,11 @@ public class UserRestController {
         return ResponseEntity.ok(userResponseDto);
     }
 
+    @Operation(summary = "Удалить пользователя", description = "Удаляет пользователя по id")
+    @ApiResponses({
+            @ApiResponse(responseCode = "204", description = "Пользователь успешно удален"),
+            @ApiResponse(responseCode = "404", description = "Пользователь не найден")
+    })
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteUserById(@PathVariable("id")
                                                @NotNull
