@@ -9,6 +9,7 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import ru.job4j.socialmediaapi.dto.post.PostDto;
@@ -32,6 +33,7 @@ public class PostRestController {
             @ApiResponse(responseCode = "400", description = "Ошибка валидации")
     })
     @PostMapping
+    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<PostDto> savePost(@Valid
                                             @RequestBody PostRequestDto postRequestDto) {
         PostDto postDto = postService.savePost(postRequestDto);
@@ -52,6 +54,7 @@ public class PostRestController {
             responseCode = "200",
             description = "Список постов успешно получен")
     @GetMapping
+    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<List<PostDto>> getAllPosts() {
         List<PostDto> postDtos = postService.getAllPosts();
         if (postDtos.isEmpty()) {
@@ -66,6 +69,7 @@ public class PostRestController {
             @ApiResponse(responseCode = "404", description = "Пост не найден")
     })
     @GetMapping("/{id}")
+    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<PostDto> getPostById(@PathVariable("id")
                                                @NotNull
                                                @Min(value = 1, message = "номер ресурса должен быть 1 и более")
@@ -83,6 +87,7 @@ public class PostRestController {
             @ApiResponse(responseCode = "404", description = "Пост не найден")
     })
     @PutMapping("/{id}")
+    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<PostDto> updatePost(@PathVariable("id")
                                               @NotNull
                                               @Min(value = 1, message = "номер ресурса должен быть 1 и более")
@@ -102,6 +107,7 @@ public class PostRestController {
             @ApiResponse(responseCode = "404", description = "Пост не найден")
     })
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('MODERATOR') or hasRole('ADMIN')")
     public ResponseEntity<Void> deletePostById(@PathVariable("id")
                                                @NotNull
                                                @Min(value = 1, message = "номер ресурса должен быть 1 и более")
@@ -118,6 +124,7 @@ public class PostRestController {
             @ApiResponse(responseCode = "400", description = "Ошибка валидации входных данных")
     })
     @PostMapping("/by-users")
+    @PreAuthorize("hasRole('MODERATOR') or hasRole('ADMIN')")
     public ResponseEntity<List<UserPostsDto>> getPostsByUserIds(@Valid
                                                                 @RequestBody List<Long> userIds) {
         List<UserPostsDto> userPosts = postService.getPostsByUserIds(userIds);

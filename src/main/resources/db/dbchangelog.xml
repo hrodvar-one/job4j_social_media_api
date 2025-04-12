@@ -15,5 +15,9 @@
         <sqlFile path="db/scripts/007_create_subscriptions_table.sql" />
         <sqlFile path="db/scripts/008_create_messages_table.sql" />
         <sqlFile path="db/scripts/009_create_activity_feed_table.sql" />
+        <sqlFile path="db/scripts/010_create_persons_table.sql" />
+        <sqlFile path="db/scripts/011_create_roles_table.sql" />
+        <sqlFile path="db/scripts/012_create_persons_roles_table.sql" />
+        <sqlFile path="db/scripts/013_insert_role_in_roles_table.sql" />
     </changeSet>
 </databaseChangeLog>

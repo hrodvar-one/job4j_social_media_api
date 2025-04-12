@@ -9,6 +9,7 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import ru.job4j.socialmediaapi.dto.user.UserRequestDto;
@@ -33,6 +34,7 @@ public class UserRestController {
             @ApiResponse(responseCode = "400", description = "Ошибка валидиции")
     })
     @PostMapping
+    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<UserResponseDto> saveUser(@Valid
                                                     @RequestBody UserRequestDto userRequestDto) {
         UserResponseDto userResponseDto = userService.saveUser(userRequestDto);
@@ -53,6 +55,7 @@ public class UserRestController {
             responseCode = "200",
             description = "Список пользователей")
     @GetMapping
+    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<List<UserResponseDto>> getAllUsers() {
         List<UserResponseDto> users = userService.getAllUsers();
         if (users.isEmpty()) {
@@ -70,6 +73,7 @@ public class UserRestController {
             @ApiResponse(responseCode = "404", description = "Пользователь не найден")
     })
     @GetMapping("/{id}")
+    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<UserResponseDto> getUserById(@PathVariable("id")
                                                        @NotNull
                                                        @Min(value = 1, message = "номер ресурса должен быть 1 и более")
@@ -87,6 +91,7 @@ public class UserRestController {
             @ApiResponse(responseCode = "404", description = "Пользователь не найден")
     })
     @PutMapping("/{id}")
+    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<UserResponseDto> updateUser(@PathVariable("id")
                                                       @NotNull
                                                       @Min(value = 1, message = "номер ресурса должен быть 1 и более")
@@ -106,6 +111,7 @@ public class UserRestController {
             @ApiResponse(responseCode = "404", description = "Пользователь не найден")
     })
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('MODERATOR') or hasRole('ADMIN')")
     public ResponseEntity<Void> deleteUserById(@PathVariable("id")
                                                @NotNull
                                                @Min(value = 1, message = "номер ресурса должен быть 1 и более")
